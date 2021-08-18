@@ -1,0 +1,25 @@
+{
+  "name": "folhoso",
+  "version": "1.0.0",
+  "description": "Folhoso Bot",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ggfto/folhoso.git"
+  },
+  "keywords": [
+    "folhoso",
+    "folhinha",
+    "bot",
+    "discord"
+  ],
+  "author": "G5",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ggfto/folhoso/issues"
+  },
+  "homepage": "https://github.com/ggfto/folhoso#readme"
+}
