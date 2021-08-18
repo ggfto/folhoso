@@ -53,7 +53,7 @@ client.on("guildMemberAdd", async member => {
     const channel = member.guild.channels.cache.find(ch => ch.id == config.welcome_channel_id);
     const devutils = member.guild.channels.cache.find(ch => ch.id == config.devutils_channel_id);
     const softutils = member.guild.channels.cache.find(ch => ch.id == config.softutils_channel_id);
-    if(!channel) {
+    if(!channel || !devutils || !softutils) {
         console.log('404');
         return;
     }
