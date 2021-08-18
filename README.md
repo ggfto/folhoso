@@ -1,0 +1,2 @@
+# folhoso
+Folhoso Bot
