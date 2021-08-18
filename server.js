@@ -3,14 +3,23 @@ const Discord = require("discord.js");
 const config = require("./config.json");
 const client = new Discord.Client();
 const prefix = "!";
+const replyBank = [];
 
 client.on("ready", () => {
-
+    replyBank.push("Bom dia pra quem?");
+    replyBank.push("Bom dia princesa!");
+    replyBank.push("Bom dia? Só se for pra você!");
+    replyBank.push("Bom dia? Tá mais pra boa tarde!");
+    replyBank.push("Finalmente ein?");
 });
 
 client.on("message", async message => {
     if (message.author.bot || message.channel.type =="dm") return;                                   
-    if (!message.content.startsWith(prefix)) return;
+    if (!message.content.startsWith(prefix)) {
+        if(message.content.trim().toUpperCase().startsWith("BOM DIA")) {
+            message.reply(getRandomReply());
+        }
+    }
     const commandBody = message.content.slice(prefix.length);
     const args = commandBody.split(' ');
     const command = args.shift().toLowerCase();
@@ -29,6 +38,16 @@ client.on("message", async message => {
         break;
     }
 });
+
+function getRandomReply() {
+    return replyBank[getRandomInt(0,5)];
+}
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+}
 
 client.on("guildMemberAdd", async member => {
     const channel = member.guild.channels.cache.find(ch => ch.id == config.welcome_channel_id);
