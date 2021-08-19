@@ -28,14 +28,14 @@ client.on("message", async message => {
             const timeTaken = Date.now() - message.createdTimestamp;
             message.reply(`Pong! This message had a latency of ${timeTaken}ms.`);
         break;
-        case "sayfix":
-            message.channel.send("```" + message.content.substring(command.length+2) + "```")
-                .catch(console.error);
-        break;
-        case "say":
-            message.channel.send(message.content.substring(command.length+2))
-                .catch(console.error);
-        break;
+        // case "sayfix":
+        //     message.channel.send("```" + message.content.substring(command.length+2) + "```")
+        //         .catch(console.error);
+        // break;
+        // case "say":
+        //     message.channel.send(message.content.substring(command.length+2))
+        //         .catch(console.error);
+        // break;
     }
 });
 
