@@ -1,53 +1,51 @@
 const Discord = require("discord.js");
-
+const fs = require('fs');
 const config = require("./config.json");
+
 const client = new Discord.Client();
 const prefix = "!";
-const replyBank = [];
+client.commands = new Discord.Collection();
+client.greetings = new Discord.Collection();
+
+function getFiles(dir, ext) {
+    try {
+        return fs.readdirSync(`./${dir}/`).filter(file => file.endsWith(`.${ext}`));
+    } catch(error) {
+        console.error(error);
+    }
+}
+
+function populateCollection(collection, dir) {
+    for(const file of getFiles(dir, 'js')) {
+        const obj = require(`./${dir}/${file}`);
+        collection.set(obj.name, obj);
+    }    
+}
 
 client.on("ready", () => {
-    replyBank.push("Bom dia pra quem?");
-    replyBank.push("Bom dia princesa!");
-    replyBank.push("Bom dia? Só se for pra você!");
-    replyBank.push("Bom dia? Tá mais pra boa tarde!");
-    replyBank.push("Finalmente ein?");
+    populateCollection(client.commands, 'commands');
+    populateCollection(client.greetings, 'greetings');
+    console.log("Folhoso is on!");
 });
 
 client.on("message", async message => {
     if (message.author.bot || message.channel.type =="dm") return;                                   
     if (!message.content.startsWith(prefix)) {
-        if(message.content.trim().toUpperCase().startsWith("BOM DIA")) {
-            message.reply(getRandomReply());
+        strMsg = message.content.trim().toUpperCase();
+        if(strMsg.startsWith("BOM DIA")) {
+            client.greetings.get('bomdia').execute(message, []);
+        } else if(strMsg.includes("SAINDO") || strMsg.includes("PARTIU") || strMsg.includes("ATÉ AMANHÃ") || strMsg.includes("ATÉ AMANHA") || strMsg.includes("ATE AMANHA") || strMsg.includes("ATE AMANHÃ")) {
+            client.greetings.get('saindo').execute(message, []);
+        } else if(strMsg.includes('VOLTEI')) {
+            client.greetings.get('retorno').execute(message, []);
         }
-    }
-    const commandBody = message.content.slice(prefix.length);
-    const args = commandBody.split(' ');
-    const command = args.shift().toLowerCase();
-    switch(command) {
-        case "ping":
-            const timeTaken = Date.now() - message.createdTimestamp;
-            message.reply(`Pong! This message had a latency of ${timeTaken}ms.`);
-        break;
-        // case "sayfix":
-        //     message.channel.send("```" + message.content.substring(command.length+2) + "```")
-        //         .catch(console.error);
-        // break;
-        // case "say":
-        //     message.channel.send(message.content.substring(command.length+2))
-        //         .catch(console.error);
-        // break;
+    } else {
+        const args = message.content.slice(prefix.length).split(' ');
+        const command = args.shift().toLowerCase();
+        if(command === 'help') client.commands.get(command).execute(message, client.commands);
+        else client.commands.get(command).execute(message, args);
     }
 });
-
-function getRandomReply() {
-    return replyBank[getRandomInt(0,5)];
-}
-
-function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
-}
 
 client.on("guildMemberAdd", async member => {
     const channel = member.guild.channels.cache.find(ch => ch.id == config.welcome_channel_id);
@@ -57,9 +55,6 @@ client.on("guildMemberAdd", async member => {
         console.log('404');
         return;
     }
-    let servidor = client.guilds.resolve(config.server_id);
-    let membro = servidor.members.resolve(member.id);
-    membro.roles.add(config.visitor_role_id);
     channel.send({embed: {
         color: 0x00ff00,
         description: `Seja bem-vindo ao time, ${member}!!!`,
@@ -80,7 +75,6 @@ client.on("guildMemberRemove", async member => {
     channel.send({embed: {
         color: 0xff0000,
         description: `${member} deixou o time.`,
-        //fields:[{}],
         timestamp: new Date(),
         footer: {
             text: "Time Disruptivo"
