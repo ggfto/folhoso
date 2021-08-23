@@ -7,13 +7,18 @@ module.exports = {
     permissions: permissions,
     example: '`say geral Olá` -> Envia Olá no canal de texto geral.',
     async execute(message, args) {
+        message.delete();
         if(hasPermission(message)){
             if(!args[0]) return message.reply("Por favor informe canal e mensagem!");
             let channel = message.member.guild.channels.cache.find(ch => ch.name == args[0]);
             if(channel == undefined) channel = message.member.guild.channels.cache.find(ch => ch.id == args[0]);
-            if(channel == undefined) return message.reply("Canal inválido!");
-            channel.send(args[1]).catch(console.error);
-            message.delete();
+            let text = undefined;
+            if(channel == undefined) {
+                channel = message.channel;
+                text = args.join(' ');
+            } else
+                text = args.join(' ').substring(args[0].length + 1);
+            channel.send(text).catch(console.error);
         }
     }
 }
