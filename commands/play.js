@@ -5,7 +5,7 @@ module.exports = {
     name: 'play',
     description: 'Tocar músicas do youtube',
     example: '`play Faded - Alan Walker` -> Toca a música passada como parâmetro.',
-    async execute(message, args) {
+    async execute(client, message, args, Discord) {
         const voiceChannel = message.member.voice.channel;
         if(!voiceChannel) return message.channel.send("Você precisa estar em um canal de áudio para utilizar este comando!");
         const permissions = voiceChannel.permissionsFor(message.client.user);

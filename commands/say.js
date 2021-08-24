@@ -6,7 +6,7 @@ module.exports = {
     description: 'Utiliza o bot para enviar mensagens.',
     permissions: permissions,
     example: '`say geral Olá` -> Envia Olá no canal de texto geral.',
-    async execute(message, args) {
+    async execute(client, message, args, Discord) {
         message.delete();
         if(hasPermission(message)){
             if(!args[0]) return message.reply("Por favor informe canal e mensagem!");

@@ -1,7 +1,7 @@
 module.exports = {
     name: 'retorno',
     description: 'Mensagem de retorno randômica',
-    execute(message, args) {
+    execute(client, message, args, Discord) {
         message.reply(getRandomReply());
     }
 }

@@ -1,7 +1,7 @@
 module.exports = {
     name: 'bomdia',
     description: 'Mensagem de bom dia randômica',
-    execute(message, args) {
+    execute(client, message, args, Discord) {
         message.reply(getRandomReply());
     }
 }

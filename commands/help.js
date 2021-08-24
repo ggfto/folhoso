@@ -4,13 +4,13 @@ module.exports = {
     name: 'help',
     description: 'Menu de ajuda',
     example: '`help` -> Mostra esse menu.',
-    execute(message, args) {
+    execute(client, message, args, Discord) {
         const exampleEmbed = new Discord.MessageEmbed()
             .setColor('#00ffff')
             .setTitle('Ajuda')
             .setAuthor('Dev: G Five#0272', '', 'https://github.com/ggfto')
             .setDescription('Olá, eu sou o Folhoso, o BOT da Folha e estou aqui para ajudar.\n Estes são os comandos atualmente disponíveis para você utilizar:')
-            .addFields(getCommands(args))
+            .addFields(getCommands(client.commands))
             .setTimestamp()
             .setFooter('Folhoso', '');
         message.channel.send(exampleEmbed);

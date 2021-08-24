@@ -8,7 +8,7 @@ module.exports = {
     description: 'Apaga a quantidade de mensagens enviadas a menos de 14 dias, passada como parâmetro.',
     permissions: permissions,
     example: '`clear 10` -> Apaga as últimas 10 mensagens enviadas no canal.',
-    async execute(message, args) {
+    async execute(client, message, args, Discord) {
         if(hasPermission(message)){
             if(!args[0]) return message.reply("Por favor coloque a quantidade de mensagens a serem apagadas!");
             if(isNaN(args[0])) return message.reply("Por favor coloque um número válido!");
