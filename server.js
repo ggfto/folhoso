@@ -11,5 +11,4 @@ client.config = {};
     require(`./handlers/${handler}`)(client, Discord);
 })
 
-//client.login(process.env.BOT_TOKEN);
-client.login("ODc3NTE1NjAxNTA4MjAwNTA4.YRzwFg.qUezdCgzIG5N56IrCSP3dJ8UxFo");
+client.login(process.env.BOT_TOKEN);
