@@ -3,6 +3,7 @@ const ytSearch = require('yt-search');
 
 module.exports = {
     name: 'play',
+    aliases: ['pl'],
     description: 'Tocar músicas do youtube',
     example: '`play Faded - Alan Walker` -> Toca a música passada como parâmetro.',
     async execute(client, message, args, Discord) {

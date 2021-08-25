@@ -1,6 +1,6 @@
 module.exports = (Discord, client, message) => {
     const prefix = "!";
-    if (message.author.bot || message.channel.type =="dm") return;                                   
+    if (message.author.bot || message.channel.type =="dm") return;
     if (!message.content.startsWith(prefix)) {
         strMsg = message.content.trim().toUpperCase();
         if(strMsg.startsWith("BOM DIA")) {
@@ -12,7 +12,8 @@ module.exports = (Discord, client, message) => {
         }
     } else {
         const args = message.content.slice(prefix.length).split(' ');
-        const command = args.shift().toLowerCase();
-        client.commands.get(command).execute(client, message, args, Discord);
+        const cmd = args.shift().toLowerCase();
+        const command = client.commands.get(cmd) || client.commands.find(a => a.aliases && a.aliases.includes(cmd));
+        if(command) command.execute(client, message, args, Discord);
     }
 }
