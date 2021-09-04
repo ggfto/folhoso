@@ -1,8 +1,17 @@
-module.exports = {
+const cfg = require("../config/config");
+
+const definition = {
     name: 'bomdia',
-    description: 'Mensagem de bom dia randômica',
-    execute(client, message, args, Discord) {
-        message.reply(getRandomReply());
+    type: 'greeting',
+    description: 'Mensagem de bom dia randômica'
+}
+
+module.exports = {
+    name: definition.name,
+    description: definition.description,
+    async execute(client, message, args, Discord) {
+        if(await cfg.isActive(message.guild.id, definition) && await cfg.willTrigger(message.guild.id, definition))
+            message.reply(cfg.getRandomReply(replyBank));
     }
 }
 
@@ -13,13 +22,3 @@ const replyBank = [
     "bom dia? Tá mais pra boa tarde!",
     "finalmente ein?"
 ];
-
-function getRandomReply() {
-    return replyBank[getRandomInt(0,replyBank.length)];
-}
-
-function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
-}

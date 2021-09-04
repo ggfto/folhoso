@@ -1,4 +1,5 @@
 const Configuration = require("../config/configuration");
+const cfg = require("../config/config");
 
 const permissions = [
     { name: "Administrador", value: "ADMINISTRATOR"}
@@ -7,9 +8,9 @@ module.exports = {
     name: 'set',
     description: 'Setar configuracoes.',
     permissions: permissions,
-    example: '`set welcome_channel_id geral -> Configura o canal de texto geral para receber mensagens de boas vindas.',
+    example: '`set welcome_channel_id geral` -> Configura o canal de texto geral para receber mensagens de boas vindas.',
     async execute(client, message, args, Discord) {
-        if(hasPermission(message)){
+        if(cfg.hasPermission(message, permissions)){
             if(!args[0] || !args[1]) return message.reply("Por favor informe chave e valor!");
             if(args[0].includes("channel")) {
                 let config = await Configuration.findByPk(message.member.guild.id);
@@ -40,15 +41,4 @@ module.exports = {
             }
         }
     }
-}
-
-function hasPermission(message) {
-    let result = false;
-    for(p of permissions) {
-        result = message.member.hasPermission(p.value);
-        if(result) break;
-        result = message.channel.permissionsFor(message.member).has(p.value);
-        if(result) break;
-    }
-    return result;
 }

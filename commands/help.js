@@ -5,35 +5,64 @@ module.exports = {
     description: 'Menu de ajuda',
     example: '`help` -> Mostra esse menu.',
     execute(client, message, args, Discord) {
-        const exampleEmbed = new Discord.MessageEmbed()
-            .setColor('#00ffff')
-            .setTitle('Ajuda')
-            .setAuthor('Dev: G Five#0272', '', 'https://github.com/ggfto')
-            .setDescription('Olá, eu sou o Folhoso, o BOT da Folha e estou aqui para ajudar.\n Estes são os comandos atualmente disponíveis para você utilizar:')
-            .addFields(getCommands(client.commands))
-            .setTimestamp()
-            .setFooter('Folhoso', '');
-        message.channel.send(exampleEmbed);
+        if(!args[0]) {
+            const exampleEmbed = new Discord.MessageEmbed()
+                .setColor('#00ffff')
+                .setTitle('Ajuda')
+                .setAuthor('Dev: G Five#0272', '', 'https://github.com/ggfto')
+                .setDescription("Olá, eu sou o Folhoso, o BOT da Folha e estou aqui para ajudar (ou não).\n Estes são os comandos atualmente disponíveis para você utilizar:\n"
+                    + getCommandNames(client.commands) + "\n\nPara mais informações sobre um comando digite `!help comando`")
+                .setTimestamp()
+                .setFooter('Folhoso', '');
+            message.channel.send(exampleEmbed);
+        } else {
+            message.channel.send(getCommand(client.commands, args[0]));
+        }
     }
 }
 
-function getCommands(commands) {
-    fields = [];
+function getCommandNames(commands) {
+    let names = "";
     for(command of commands) {
-        field = {};
-        cmd = command[1];
-        if(cmd.name) {
-            field.name = cmd.name;
-            field.value = `${cmd.description}${getPermissions(cmd)}\nExemplo: ${cmd.example}`;
-            fields.push(field);
+        if(command[1].name)
+            names += "`" + command[1].name + "`,";
+    }
+    return names.slice(0, -1);
+}
+
+function getCommand(commands, name) {
+    let cmd = null;
+    for(command of commands) {
+        if(command[1].name == name) {
+            cmd = command[1];
+            break;
         }
     }
-    return fields;
+    if(cmd) {
+        return new Discord.MessageEmbed()
+            .setColor('#00ffff')
+            .setTitle(cmd.name)
+            .setDescription(`Descrição: ${cmd.description}`)
+            .addFields([
+                {
+                    name: "Permissão requerida",
+                    value: getPermissions(cmd)
+                },
+                {
+                    name: "Exemplo",
+                    value: cmd.example
+                }
+            ])
+            .setTimestamp()
+            .setFooter('Folhoso', '');
+    } else {
+        return `comando '${name}' não encontrado!`;
+    }
 }
 
 function getPermissions(command) {
-    let result = "\nPermissão requerida: ";
-    if(command.permissions == undefined) return result += "Nenhuma";
+    let result = "";
+    if(command.permissions == undefined) return result += "`Nenhuma`";
     for(p of command.permissions) {
         result += "`" + p.name + "`,";
     }

@@ -3,6 +3,7 @@ const permissions = [
     { name: "Administrador", value: "ADMINISTRATOR"},
     { name: "Gerenciar Mensagens", value: "MANAGE_MESSAGES"}
 ];
+
 module.exports = {
     name: 'clear',
     description: 'Apaga a quantidade de mensagens enviadas a menos de 14 dias, passada como parâmetro.',
