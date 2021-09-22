@@ -9,6 +9,8 @@ module.exports = (Discord, client, message) => {
             client.greetings.get('saindo').execute(client, message, [], Discord);
         } else if(strMsg.includes('VOLTEI')) {
             client.greetings.get('retorno').execute(client, message, [], Discord);
+        } else if(strMsg.includes("DEVOPS")) {
+            message.channel.send("https://tenor.com/view/cone-swimming-drunk-dance-gif-15857244");
         }
     } else {
         const args = message.content.slice(prefix.length).split(' ');
