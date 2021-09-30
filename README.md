@@ -20,6 +20,3 @@ This command is missing arguments, will fix it later.
 Este comando está faltando argumentos, vou corrigir depois.
 
 docker run -d --name folhoso --restart unless-stopped ggfto/folhoso
-
-# Source Code
-https://github.com/ggfto/folhoso
