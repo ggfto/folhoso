@@ -18,8 +18,8 @@ module.exports = (Discord, client, message) => {
     } else {
         const args = message.content.slice(prefix.length).split(' ');
         const cmd = args.shift().toLowerCase();
-        if(message.author.bot && cmd != 'clear') return;
         const command = client.commands.get(cmd) || client.commands.find(a => a.aliases && a.aliases.includes(cmd));
+        if(message.author.bot === client.user.username && command && command != 'clear') return;
         if (command) command.execute(client, message, args, Discord, cmd);
     }
 }
