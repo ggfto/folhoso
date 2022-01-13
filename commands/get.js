@@ -11,7 +11,7 @@ module.exports = {
     permissions: permissions,
     example: '`get welcome_channel_id` -> Retorna o canal de texto para receber mensagens de boas vindas.',
     async execute(client, message, args, Discord) {
-        if (config.hasPermission(message)) {
+        if (config.hasPermission(message, permissions)) {
             if (!args[0] || !args[1]) return message.reply("Por favor informe chave e valor!");
             let config = await Configuration.findByPk(message.member.guild.id);
             if (!config || config[args[0]] == undefined)
