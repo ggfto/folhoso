@@ -10,7 +10,7 @@ module.exports = {
     name: definition.name,
     description: definition.description,
     async execute(client, message, args, Discord) {
-        if(await cfg.isActive(message.guild.id, definition) && await cfg.willTrigger(message.guild.id, definition))
+        if (await cfg.isActive(message.guild.id, definition) && await cfg.willTrigger(message.guild.id, definition))
             message.reply(cfg.getRandomReply(replyBank));
     }
 }

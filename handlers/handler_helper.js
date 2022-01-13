@@ -3,17 +3,17 @@ const fs = require('fs');
 function getFiles(dir, ext) {
     try {
         return fs.readdirSync(`./${dir}/`).filter(file => file.endsWith(`.${ext}`));
-    } catch(error) {
+    } catch (error) {
         console.error(error);
     }
 }
 
-exports.populateCollection = function(collection, dir) {
-    for(const file of getFiles(dir, 'js')) {
+exports.populateCollection = function (collection, dir) {
+    for (const file of getFiles(dir, 'js')) {
         const obj = require(`../${dir}/${file}`);
-        if(obj.name)
+        if (obj.name)
             collection.set(obj.name, obj);
         else
             continue;
-    }    
+    }
 }

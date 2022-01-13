@@ -1,6 +1,10 @@
-const permissions = [
-    { name: "Administrador", value: "ADMINISTRATOR"}
-];
+const config = require('../config/config');
+
+const permissions = [{
+    name: "Administrador",
+    value: "ADMINISTRATOR"
+}];
+
 module.exports = {
     name: 'say',
     description: 'Utiliza o bot para enviar mensagens.',
@@ -8,12 +12,12 @@ module.exports = {
     example: '`say geral Olá` -> Envia Olá no canal de texto geral.',
     async execute(client, message, args, Discord) {
         message.delete();
-        if(hasPermission(message)){
-            if(!args[0]) return message.reply("Por favor informe canal e mensagem!");
+        if (config.hasPermission(message)) {
+            if (!args[0]) return message.reply("Por favor informe canal e mensagem!");
             let channel = message.member.guild.channels.cache.find(ch => ch.name == args[0]);
-            if(channel == undefined) channel = message.member.guild.channels.cache.find(ch => ch.id == args[0]);
+            if (channel == undefined) channel = message.member.guild.channels.cache.find(ch => ch.id == args[0]);
             let text = undefined;
-            if(channel == undefined) {
+            if (channel == undefined) {
                 channel = message.channel;
                 text = args.join(' ');
             } else
@@ -21,15 +25,4 @@ module.exports = {
             channel.send(text).catch(console.error);
         }
     }
-}
-
-function hasPermission(message) {
-    let result = false;
-    for(p of permissions) {
-        result = message.member.hasPermission(p.value);
-        if(result) break;
-        result = message.channel.permissionsFor(message.member).has(p.value);
-        if(result) break;
-    }
-    return result;
 }

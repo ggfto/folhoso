@@ -1,59 +1,61 @@
 const db = require('./db');
-const Configuration  = require('../config/configuration');
 const Command = require("../config/command");
 
-exports.dbSync = async function() {
+exports.dbSync = async function () {
     await db.sync().catch(console.error);
 }
 
-exports.hasPermission = function(message, permissions) {
+exports.hasPermission = function (message, permissions) {
     let result = false;
-    for(p of permissions) {
+    if (message.author.bot) return result;
+    for (p of permissions) {
         result = message.member.hasPermission(p.value);
-        if(result) break;
+        if (result) break;
         result = message.channel.permissionsFor(message.member).has(p.value);
-        if(result) break;
+        if (result) break;
     }
     return result;
 }
 
-exports.getRandomReply = function(replyBank) {
-    return replyBank[getRandomInt(0,replyBank.length)];
+exports.getRandomReply = function (replyBank) {
+    return replyBank[getRandomInt(0, replyBank.length)];
 }
 
-exports.isActive = async function(server, command) {
-    const cmdCfg = await Command.findOne({
+exports.isActive = async function (server, definition) {
+    const config = await Command.findOne({
         where: {
             server: server,
-            type: command.type,
-            name: command.name
+            type: definition.type,
+            name: definition.name
         }
     }).catch(console.error);
-    if(cmdCfg) {
-        const cfg = JSON.parse(cmdCfg.value);
-        if(cfg) return cfg.active;
+    if (config) {
+        const value = JSON.parse(config.value);
+        if (value) return value.active == 'true';
     }
     return false;
 }
 
-exports.willTrigger = async function(server, command) {
+exports.willTrigger = async function (server, definition) {
     let result = false;
-    const cmdCfg = await Command.findOne({
+    const config = await Command.findOne({
         where: {
             server: server,
-            type: command.type,
-            name: command.name
+            type: definition.type,
+            name: definition.name
         }
     }).catch(console.error);
-    if(cmdCfg) {
-        const cfg = JSON.parse(cmdCfg.value);
-        if(cfg) {
-            percent = cfg.triggerPercent;
-            if(percent) {
-                if(percent == 1) return true;
+    if (config) {
+        const value = JSON.parse(config.value);
+        if (value) {
+            percent = value.triggerPercent;
+            if (percent) {
+                if (percent == 100) return true;
                 else {
-                    fifth = percent/2;
-                    return getRandomInt(1, percent) > fifth;
+                    let val = getRandomInt(1, 100);
+                    console.log(val);
+                    console.log(percent);
+                    return val <= percent;
                 }
             }
         }

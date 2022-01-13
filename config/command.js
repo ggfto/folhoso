@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const database = require('./db');
- 
+
 const Command = database.define('command', {
     server: {
         type: Sequelize.STRING,
@@ -22,5 +22,5 @@ const Command = database.define('command', {
         allowNull: true
     }
 })
- 
+
 module.exports = Command;

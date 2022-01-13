@@ -1,4 +1,4 @@
-const cfg = require("../config/config");
+const config = require("../config/config");
 
 const definition = {
     name: 'saindo',
@@ -11,9 +11,17 @@ module.exports = {
     name: definition.name,
     description: definition.description,
     async execute(client, message, args, Discord) {
-        if (await cfg.isActive(message.guild.id, definition) && await cfg.willTrigger(message.guild.id, definition)) {
-            message.reply(cfg.getRandomReply(replyBank));
+        let cmdActive = false;
+        cmdActive = await config.isActive(message.guild.id, definition);
+        let cmdTrigger = false;
+        cmdTrigger = await config.willTrigger(message.guild.id, definition);
+        if (!cmdActive) {
+            return;
         }
+        if (!cmdTrigger) {
+            return;
+        }
+        message.reply(config.getRandomReply(replyBank));
     }
 }
 

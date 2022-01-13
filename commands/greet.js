@@ -1,5 +1,5 @@
 const Command = require("../config/command");
-const cfg = require("../config/config");
+const config = require("../config/config");
 
 const permissions = [{
     name: "Administrador",
@@ -20,7 +20,7 @@ module.exports = {
     permissions: definition.permissions,
     example: definition.example,
     async execute(client, message, args, Discord) {
-        if (cfg.hasPermission(message, permissions)) {
+        if (config.hasPermission(message, permissions)) {
             if (!args[0] || !args[1]) return message.reply("Por favor informe chave e valores!");
             if (args[0]) {
                 let greeting = await Command.findOne({
