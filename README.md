@@ -1,3 +1,5 @@
+[![Docker Image CI](https://github.com/ggfto/folhoso/actions/workflows/docker-image.yml/badge.svg)](https://github.com/ggfto/folhoso/actions/workflows/docker-image.yml)
+
 # About
 ## English
 Discord bot to have fun.
