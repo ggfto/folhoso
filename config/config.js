@@ -53,8 +53,6 @@ exports.willTrigger = async function (server, definition) {
                 if (percent == 100) return true;
                 else {
                     let val = getRandomInt(1, 100);
-                    console.log(val);
-                    console.log(percent);
                     return val <= percent;
                 }
             }

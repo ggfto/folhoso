@@ -62,7 +62,7 @@ module.exports = {
                     value[args[1]] = args[2];
                     config.value = JSON.stringify(value);
                     await config.save().then((result) => {
-                        message.reply(`${args[0]} configurado para ${result[args[0]]}`);
+                        message.reply(`\`${args[0]}\` configurado para \`\`\`${config.value}\`\`\``);
                     }).catch(console.error);
                 } else {
                     message.reply(`${args[0]} não encontrado.`);
