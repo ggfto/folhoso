@@ -3,3 +3,4 @@ npm-debug.log
 *.sqlite
 Dockerfile
 *.md
+*.env
