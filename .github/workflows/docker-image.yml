@@ -21,7 +21,7 @@ jobs:
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-    - name: Build Docker image
+    - name: Docker Build
       run: docker build . --file Dockerfile --tag ${{secrets.DOCKER_USER}}/folhoso:latest
     
     - name: Docker Push
@@ -38,6 +38,8 @@ jobs:
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-    - name: Docker Build and Push
-      run: |
-        docker buildx build --platform linux/arm64 --tag ${{secrets.DOCKER_USER}}/folhoso-arm:latest --file ./Dockerfile --output type=image,push=true .
+    - name: Docker Build
+      run: docker buildx build . --platform=linux/arm64 --file ./Dockerfile-arm --tag ${{secrets.DOCKER_USER}}/folhoso-arm:latest
+
+    - name: Docker Push
+      run: docker push ${{secrets.DOCKER_USER}}/folhoso-arm:latest
