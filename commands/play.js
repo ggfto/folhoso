@@ -1,6 +1,6 @@
 const ytdl = require('ytdl-core');
 const ytpl = require('ytpl');
-const ytSearch = require('yt-search');
+const yts = require('yt-search');
 
 const queue = new Map();
 
@@ -52,8 +52,11 @@ const addQueue = async (message, args, voiceChannel) => {
         };
     } else {
         const videoFinder = async (query) => {
-            const videoResult = await ytSearch(query);
-            return (videoResult.videos.length > 1) ? videoResult.videos[0] : null;
+            const videoResult = await yts(query);
+            if(videoResult)
+                return (videoResult.videos.length > 1) ? videoResult.videos[0] : null;
+            else
+                message.channel.send("Erro ao tentar buscar vídeo.");
         }
 
         const video = await videoFinder(args.join(' '));
@@ -123,9 +126,15 @@ const skipSong = async (message, serverQueue) => {
         return message.channel.send('Não há músicas na lista!');
     }
     try {
-        let np = serverQueue.nowPlaying.title;
-        serverQueue.connection.dispatcher.end();
-        message.channel.send(`:track_next: Pulando ***${np}***`);
+        if(serverQueue) {
+            if(serverQueue.nowPlaying) {
+                let np = serverQueue.nowPlaying.title;
+                if(np) {
+                    serverQueue.connection.dispatcher.end();
+                    message.channel.send(`:track_next: Pulando ***${np}***`);
+                }
+            }
+        }
     } catch (err) {
         await message.channel.send('Erro ao trocar de música, a lista será esvaziada!');
         serverQueue.songs = [];
