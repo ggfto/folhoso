@@ -3,12 +3,14 @@ const ytpl = require('ytpl');
 const yts = require('yt-search');
 
 const queue = new Map();
+let memes = [];
 
 module.exports = {
     name: 'meme',
-    description: 'Envia um meme e apaga a mensagem do comando.',
+    description: `Envia um meme e apaga a mensagem do comando.\n Disponíveis: ${getMemeHelp()}`,
     example: '`meme errou` -> Retorna o meme Errou do Faustão.',
     async execute(client, message, args, Discord) {
+        memes = populateMemes();
         const voiceChannel = message.member.voice.channel;
         const meme = getMeme(args[0])
         const user = args[1] || '';
@@ -20,7 +22,7 @@ module.exports = {
             message.reply(error);
         });
         if(meme != undefined) {
-            if (!voiceChannel) return message.channel.send(`${meme.description} ${user}`);
+            if (!voiceChannel || (meme.value == undefined || meme.value == '')) return message.channel.send(`${meme.description} ${user}`);
             const permissions = voiceChannel.permissionsFor(message.client.user);
             if (!permissions.has('CONNECT') || !permissions.has('SPEAK')){
                 return message.channel.send("Você não possui a permissão necessária para utilizar este comando neste canal!");
@@ -36,43 +38,14 @@ function getMeme(name) {
     }
 }
 
-memes = [
-    {
-        name: 'errou',
-        value: 'https://www.youtube.com/watch?v=qPl_ToZtDoQ',
-        description: '**ERRRRRRRRRROOOOOU!**'
-    },
-    {
-        name: 'moises',
-        value: 'https://www.youtube.com/watch?v=PZ4Ppr6JCWs',
-        description: '**Moisés, não consegue né?!**'
-    },
-    {
-        name: 'dlc',
-        value: 'https://www.youtube.com/watch?v=xkXLfQRYkRQ',
-        description: '**Ai qui diliça!**'
-    },
-    {
-        name: 'papai',
-        value: 'https://www.youtube.com/watch?v=XyHZyfZZUpw',
-        description: '**Aqui não tem empregada, aqui não tem mamãe, aqui não tem papai para poder limpar as merdas de vocês!**'
-    },
-    {
-        name: 'dinossauro',
-        value: 'https://www.youtube.com/watch?v=uNOqvtQfPks',
-        description: '**DESGRAAAAAAAAAAAAAAAAAAÇA!**'
-    },
-    {
-        name: 'fdp1',
-        value: 'https://www.youtube.com/watch?v=YewUtVP2_5c',
-        description: '**FILHO DA PUUUUUUUUUUUTA!**'
-    },
-    {
-        name: 'cafe',
-        value: '',
-        description: '**Vai um cafezinho aí, ô filha da puta?!**'
+function getMemeHelp() {
+    let result = "";
+    for(let meme of populateMemes()) {
+        if(result != "") result += ",";
+        result += "`" + meme.name + "`";
     }
-]
+    return result;
+}
 
 const addQueue = async (message, args, voiceChannel) => {
     const serverQueue = queue.get(message.guild.id);
@@ -151,4 +124,50 @@ const videoPlayer = async (guild, song) => {
         });
 
     return;
+}
+
+function populateMemes() {
+    let meme = {
+        name: 'errou',
+        value: 'https://www.youtube.com/watch?v=qPl_ToZtDoQ',
+        description: '**ERRRRRRRRRROOOOOU!**'
+    };
+    memes.push(meme);
+    meme = {
+        name: 'moises',
+        value: 'https://www.youtube.com/watch?v=PZ4Ppr6JCWs',
+        description: '**Moisés, não consegue né?!**'
+    }
+    memes.push(meme);
+    meme = {
+        name: 'dlc',
+        value: 'https://www.youtube.com/watch?v=xkXLfQRYkRQ',
+        description: '**Ai qui diliça!**'
+    };
+    memes.push(meme);
+    meme = {
+        name: 'papai',
+        value: 'https://www.youtube.com/watch?v=XyHZyfZZUpw',
+        description: '**Aqui não tem empregada, aqui não tem mamãe, aqui não tem papai para poder limpar as merdas de vocês!**'
+    };
+    memes.push(meme);
+    meme = {
+        name: 'dinossauro',
+        value: 'https://www.youtube.com/watch?v=uNOqvtQfPks',
+        description: '**DESGRAAAAAAAAAAAAAAAAAAÇA!**'
+    }
+    memes.push(meme);
+    meme = {
+        name: 'fdp1',
+        value: 'https://www.youtube.com/watch?v=YewUtVP2_5c',
+        description: '**FILHO DA PUUUUUUUUUUUTA!**'
+    };
+    memes.push(meme);
+    meme = {
+        name: 'cafe',
+        value: '',
+        description: '**Vai um cafezinho aí, ô filha da puta?!**'
+    };
+    memes.push(meme);
+    return memes;
 }
