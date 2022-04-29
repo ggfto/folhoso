@@ -6,13 +6,21 @@ const queue = new Map();
 
 module.exports = {
     name: 'meme',
-    description: 'Envia um meme.',
+    description: 'Envia um meme e apaga a mensagem do comando.',
     example: '`meme errou` -> Retorna o meme Errou do Faustão.',
-    execute(client, message, args, Discord) {
+    async execute(client, message, args, Discord) {
         const voiceChannel = message.member.voice.channel;
         const meme = getMeme(args[0])
+        const user = args[1] || '';
+        await message.channel.messages.fetch({
+            limit: 1
+        }).then(messages => {
+            message.channel.bulkDelete(messages);
+        }).catch(error => {
+            message.reply(error);
+        });
         if(meme != undefined) {
-            if (!voiceChannel) return message.channel.send(meme.description);
+            if (!voiceChannel) return message.channel.send(`${meme.description} ${user}`);
             const permissions = voiceChannel.permissionsFor(message.client.user);
             if (!permissions.has('CONNECT') || !permissions.has('SPEAK')){
                 return message.channel.send("Você não possui a permissão necessária para utilizar este comando neste canal!");
