@@ -127,47 +127,50 @@ const videoPlayer = async (guild, song) => {
 }
 
 function populateMemes() {
-    let meme = {
+    memes.push({
         name: 'errou',
         value: 'https://www.youtube.com/watch?v=qPl_ToZtDoQ',
         description: '**ERRRRRRRRRROOOOOU!**'
-    };
-    memes.push(meme);
-    meme = {
+    });
+    memes.push({
         name: 'moises',
         value: 'https://www.youtube.com/watch?v=PZ4Ppr6JCWs',
         description: '**Moisés, não consegue né?!**'
-    }
-    memes.push(meme);
-    meme = {
+    });
+    memes.push({
         name: 'dlc',
         value: 'https://www.youtube.com/watch?v=xkXLfQRYkRQ',
         description: '**Ai qui diliça!**'
-    };
-    memes.push(meme);
-    meme = {
+    });
+    memes.push({
         name: 'papai',
         value: 'https://www.youtube.com/watch?v=XyHZyfZZUpw',
         description: '**Aqui não tem empregada, aqui não tem mamãe, aqui não tem papai para poder limpar as merdas de vocês!**'
-    };
-    memes.push(meme);
-    meme = {
+    });
+    memes.push({
         name: 'dinossauro',
         value: 'https://www.youtube.com/watch?v=uNOqvtQfPks',
         description: '**DESGRAAAAAAAAAAAAAAAAAAÇA!**'
-    }
-    memes.push(meme);
-    meme = {
-        name: 'fdp1',
+    });
+    memes.push({
+        name: 'fdp',
         value: 'https://www.youtube.com/watch?v=YewUtVP2_5c',
         description: '**FILHO DA PUUUUUUUUUUUTA!**'
-    };
-    memes.push(meme);
-    meme = {
+    });
+    memes.push({
         name: 'cafe',
         value: '',
         description: '**Vai um cafezinho aí, ô filha da puta?!**'
-    };
-    memes.push(meme);
+    });
+    memes.push({
+        name: 'naosabia',
+        value: 'https://www.youtube.com/watch?v=4S_1T-ZjYqU',
+        description: '**Que merda ein?! Sabia não**'
+    });
+    memes.push({
+        name: 'louco',
+        value: 'https://www.youtube.com/watch?v=xdhoVJLIWv8',
+        description: '**Quando eu falo isso, eu sou louco?!**'
+    });
     return memes;
 }
