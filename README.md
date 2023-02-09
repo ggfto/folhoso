@@ -1,4 +1,4 @@
-[![Docker Image CI](https://github.com/ggfto/folhoso/actions/workflows/docker-image.yml/badge.svg)](https://github.com/ggfto/folhoso/actions/workflows/docker-image.yml)
+[![ci](https://github.com/ggfto/folhoso/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ggfto/folhoso/actions/workflows/ci.yml?branch=main)
 
 # About
 ## English
