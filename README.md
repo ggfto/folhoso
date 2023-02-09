@@ -21,4 +21,6 @@ This command is missing arguments, will fix it later.
 ## Português
 Este comando está faltando argumentos, vou corrigir depois.
 
-docker run -d --name folhoso --restart unless-stopped ggfto/folhoso
+```bash
+    docker run -d --name folhoso --restart unless-stopped ggfto/folhoso
+```
