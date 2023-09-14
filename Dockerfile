@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 
-RUN npm ci --only=production --build-from-source --python=/usr/bin/python3
+RUN npm ci --omit=dev --only=production --build-from-source --python=/usr/bin/python3
 
 COPY . .
 
