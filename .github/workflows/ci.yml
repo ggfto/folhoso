@@ -44,6 +44,8 @@ jobs:
         with:
           severity: info
           details: Sucesso no build!
+          username: Octocat
+          avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Failure Discord Notification
         if: failure()
