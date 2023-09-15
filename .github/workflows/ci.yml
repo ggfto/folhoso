@@ -50,5 +50,7 @@ jobs:
         uses: rjstone/discord-webhook-notify@v1
         with:
           severity: error
-          details: ${{ join(join(steps.qemu.outputs.*, '\n'), join(steps.buildx.outputs.*, '\n'), join(steps.login.outputs.*, '\n'), join(steps.build.outputs.*, '\n'), join(steps.repo.outputs.*, '\n'),) }}
+          details: ${{ join(join(steps.qemu.outputs.*, '\n'), join(steps.buildx.outputs.*, '\n'), join(steps.login.outputs.*, '\n'), join(steps.build.outputs.*, '\n'), join(steps.repo.outputs.*, '\n')) }}
+          username: Octocat
+          avatarUrl: https://github.githubassets.com/images/modules/logos_page/Octocat.png
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
